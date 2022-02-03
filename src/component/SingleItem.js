@@ -26,10 +26,11 @@ const Info = styled.div`
 const Container = styled.div`
   margin: 10px;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   flex: 1;
-  width: 280px;
-  height: 350px;
+  width: 60vw;
+  height: 55vh;
   min-width: 280px;
   align-items: center;
   justify-content: center;
@@ -40,6 +41,10 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   flex-wrap: wrap;
+  @media (max-width: 700px) {
+    width: 50vw;
+    height: 45vh;
+  }
 
   &:hover ${Info} {
     opacity: 1;
@@ -58,12 +63,19 @@ const Image = styled.img`
   max-width: 80%;
   max-height: auto;
   cursor: pointer;
+  width: 27vw;
+  height: 30vh;
 
   object-fit: contain;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   z-index: 1;
+  @media (max-width: 700px) {
+    width: 50vw;
+    height: 25vh;
+    /* object-fit: cover; */
+  }
 `
 // const Title = styled.h3``
 // const Icons = styled.div`
@@ -135,17 +147,13 @@ function SingleItem({ item }) {
         <Name>₹{item.price}</Name>
       </Details>
       <Info>
-        {/* <Title>{item.name}</Title> */}
-        {/* <Icons> */}
         <Icon>
           <ShoppingCartOutlined onClick={() => addCartHandler(item._id)} />
         </Icon>
         <Icon>
           <FavoriteBorderOutlined />
         </Icon>
-        {/* </Icons> */}
       </Info>
-      {/* </Link> */}
     </Container>
   )
 }
