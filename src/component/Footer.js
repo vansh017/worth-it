@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  padding: 20px 60px;
+  /* padding: 20px; */
   background-color: gray;
+  width: 100vw;
 `
 const Wrapper = styled.div`
   /* flex-direction: column; */

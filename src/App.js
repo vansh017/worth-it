@@ -16,7 +16,8 @@ import Login from './pages/Login'
 import ProfileOption from './pages/ProfileOption.js'
 import ProductDetails from './pages/ProductDetails'
 import Signup from './pages/Signup'
-import Profile from './pages/Profile.js'
+import Profile from './pages/Profile'
+// import UpdateProfile from './pages/UpdateProfile'
 import store from './store'
 
 const Container = styled.div``
@@ -42,8 +43,9 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/forgotPassword' element={<ForgotPassword />} />
+          <Route path='/profile/forgotPassword' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<DashBoard />} />
+          {/* <Route path='/profile/update' component={<UpdateProfile />} /> */}
         </Routes>
 
         <Footer />

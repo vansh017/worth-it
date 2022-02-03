@@ -127,6 +127,7 @@ function Profile() {
             update Password
           </Btn>
           <Btn onClick={handleLogout}>Logout</Btn>
+          <Btn onClick={() => navigate('/additem')}>AddItem</Btn>
         </TwoBtn>
       </Right>
     </Container>

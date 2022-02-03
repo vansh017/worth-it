@@ -10,12 +10,15 @@ const Container = styled.div`
   height: 60px;
   background-color: #f6f7f6;
   align-items: center;
+  width: 100vw;
+  justify-content: space-evenly;
   @media (max-width: 600px) {
     font-size: 10px;
+    justify-content: space-evenly;
   }
 `
 const Cover = styled.div`
-  padding: 15px 20px;
+  /* padding: 15px 20px; */
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -64,11 +67,12 @@ const Middle = styled.div`
 const Right = styled.div`
   flex: 1;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: flex-end;
-  margin: 5px;
+  margin: 10px;
+
   @media (max-width: 600px) {
-    margin-left: 0;
+    margin-right: 0;
     flex: 2;
     justify-content: flex-start;
   }
@@ -157,7 +161,7 @@ function Navbar({ isAuthUser }) {
             <Person
               onClick={() => navigate('/profile')}
               fontSize='large'
-              style={{ marginLeft: '5px', cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
             />
           )}
 

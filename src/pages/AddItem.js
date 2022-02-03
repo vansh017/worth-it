@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import {NavLink, useHistory} from 'react-router-dom';
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { createProduct } from '../action/productAction'
+import { useDispatch } from 'react-redux'
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -66,75 +67,63 @@ const Button1 = styled.button`
 `
 
 const AddItem = () => {
-  // const history = useHistory();
-  const [user,setUser] =useState({
-    productname:"",description:"",category:"",price:""
-  })
-  let name, value;
-  const handleInputs =(e) =>
-  {
-    console.log(e);
-    name = e.target.name;
-    value = e.target.value;
+  const dispatch = useDispatch()
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+  const [description, setDescription] = useState('')
+  const [category, setCategory] = useState('')
+  const [images, setImages] = useState([])
+  const [imagesPreview, setImagesPreview] = useState([])
+  const { register } = useForm()
 
-    setUser({ ... user, [name]:value })
+  // const myForm = new FormData()
+
+  // myForm.set('name', name)
+  // myForm.set('price', price)
+  // myForm.set('description', description)
+  // myForm.set('category', category)
+  // console.log(myForm.get(name))
+
+  const handleUp = () => {
+    dispatch(createProduct(name, description, price, category))
   }
-
-  const  PostData = async(e) =>
-  {
-e.preventDefault();
-const { productname,description,category,price} =user;
-
-const res= await fetch("/api/products/new",{
-  method:"POST",
-  headers:{
-    'Content-Type': 'application/json ',
-    'Accept': 'application/json'
-   
-   
-  },
-  body: JSON.stringify({
-   
-    productname,description,category,price
-
-
-  })
-});
-const data = await res.json();
-
-if(data.status === 422 || !data  ){
-  window.alert("Invalid");
-  console.log("Invalid");
-}
-else{
-  window.alert("Successful");
-  console.log("Successful");
-// history.push("/")
-}
-}
-  //  const { register } = useForm()
-
   return (
     <Container>
       <Wrapper>
         <Title>Add an Item</Title>
-        <Form method='POST'>
-          <Input name="productname" value={user.productname} 
-          onChange={handleInputs}
-          placeholder='Name of an Item' />
-          <Input name="description"value={user.description} 
-          onChange={handleInputs}          
-          placeholder='Description' />
-          <Input name="category" value={user.category} 
-          onChange={handleInputs} placeholder='Category' />
+        <Form>
+          <Input
+            placeholder='Name of an Item'
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            placeholder='Description'
+            required
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <Input
+            placeholder='Category'
+            required
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
 
-          <Input name="price" value={user.price} 
-          onChange={handleInputs}type='number' placeholder='Price' min='0' />
-          {/* <Input type='file' name='picture' /> */}
+          <Input
+            type='number'
+            placeholder='Price'
+            min='0'
+            required
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <Input type='file' name='picture' />
         </Form>
-        {/* <Button1 >Upload</Button1> */}
+        <Button1>Upload</Button1>
         <br></br>
-        <Button onClick={PostData}>
+        <Button onClick={() => handleUp()}>
           <b>SUBMIT</b>
         </Button>
       </Wrapper>

@@ -50,7 +50,8 @@ const CategoryName = styled.h2`
 
 function AllProduct() {
   const categories = [
-    'Books',
+    'All',
+    'books',
     'Electronics',
     'Chemical',
     'Mechanical',
@@ -70,7 +71,6 @@ function AllProduct() {
 
   useEffect(() => {
     dispatch(getProduct(keyword, price, category))
-    console.log(category)
   }, [dispatch, keyword, price, category])
 
   return (
@@ -94,6 +94,7 @@ function AllProduct() {
           <Select
             onChange={(event) => setCategory(event.target.value)}
             style={{ width: '15vw' }}
+            value={category}
           >
             {categories.map((c) => (
               <MenuItem value={c}>{c}</MenuItem>
@@ -103,7 +104,8 @@ function AllProduct() {
       </FilterContainer>
       <Categories>
         <Items>
-          {products && products.map((item) => <SingleItem item={item} />)}
+          {products &&
+            products.slice(0, 12).map((item) => <SingleItem item={item} />)}
         </Items>
       </Categories>
     </Container>

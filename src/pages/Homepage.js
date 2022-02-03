@@ -5,6 +5,7 @@ import NewItems from '../component/NewItems'
 
 const Container = styled.div`
   position: relative;
+  max-width: 100vw;
 `
 const Photo = styled.img`
   position: relative;

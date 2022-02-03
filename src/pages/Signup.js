@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useAlert } from 'react-alert'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -79,21 +80,27 @@ const Signup = () => {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const alert = useAlert()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  // const { isAuthUser } = useSelector((state) => state.user)
 
+  const { isAuthUser } = useSelector((state) => state.user)
+
+  if (isAuthUser) navigate('/')
   const handleSignup = (e) => {
     e.preventDefault()
+
     if (password === confirmPassword) {
       dispatch(registerUser(name, email, password))
+      if (!email) alert.error('Invalid email')
+      if (!name) alert.error('Invalid name')
     } else {
       setPassword('')
       setConfirmPassword('')
+      alert.error('password not matched')
     }
   }
-  const { isAuthUser } = useSelector((state) => state.registerUser)
-
-  const dispatch = useDispatch()
-
-  const navigate = useNavigate()
 
   // useEffect(() => {
   //   if (isAuthUser) navigate('/')

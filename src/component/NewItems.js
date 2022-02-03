@@ -6,19 +6,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
-  margin-top: 50px;
+  /* margin-top: 50px; */
   /* display: flex; */
-  flex-wrap: hidden;
+  /* flex-wrap: hidden; */
   justify-content: center;
   align-items: center;
   border: 2px solid gray;
   /* object-fit: contain; */
   border-radius: 5px;
-  margin-left: 20px;
+  margin: 50px;
   padding: 20px;
+
   overflow-x: scroll;
 
-  width: 95%;
+  width: 90vw;
 `
 const Heading = styled.div`
   font-weight: bolder;
@@ -52,7 +53,7 @@ function NewItems() {
     <Container>
       <Heading>
         <h4>Newly added items</h4>
-        <h6 onClick={productHandle} style={{ cursor: 'pointer' }}>
+        <h6 onClick={() => productHandle()} style={{ cursor: 'pointer' }}>
           All Products
         </h6>
       </Heading>

@@ -1,6 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { getProduct } from '../action/productAction'
 
 const Container = styled.div`
   flex: 1;
@@ -45,14 +47,21 @@ const Title = styled.h1`
 `
 
 function SingleCategory({ item }) {
+  const [category, setCategory] = useState('')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleCat = (cat) => {
+    navigate('/products')
+    setCategory(cat)
+    console.log(cat)
+    dispatch(getProduct('', [0, 1000], cat))
+  }
   return (
     <Container>
-      <Link to={item._id}>
-        <Image src={item.img} />
-        <Info>
-          <Title> {item.name}</Title>
-        </Info>
-      </Link>
+      <Image onClick={() => handleCat(item._id)} src={item.img} />
+
+      <Title> {item.name}</Title>
     </Container>
   )
 }

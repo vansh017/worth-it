@@ -2,6 +2,9 @@ import {
   ALL_PRODUCT_FAILED,
   ALL_PRODUCT_REQUEST,
   ALL_PRODUCT_SUCCESS,
+  NEW_PRODUCT_FAILED,
+  NEW_PRODUCT_REQUEST,
+  NEW_PRODUCT_SUCCESS,
   PRODUCT_DETAILS_FAILED,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -45,6 +48,31 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
       }
     case PRODUCT_DETAILS_FAILED:
       return {
+        loading: false,
+        error: action.payload,
+      }
+
+    default:
+      return state
+  }
+}
+
+export const newProductReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case NEW_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case NEW_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        success: action.payload.success,
+        product: action.payload.product,
+      }
+    case NEW_PRODUCT_FAILED:
+      return {
+        ...state,
         loading: false,
         error: action.payload,
       }

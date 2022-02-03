@@ -84,14 +84,14 @@ const Login = () => {
     // console.log(e)
 
     dispatch(login(email, password))
-  }
-  const navigate = useNavigate()
-  useEffect(() => {
     if (error) {
       alert.error(error)
       dispatch(clearError())
-    }
+    } else alert.success('Logged in Successfully')
+  }
 
+  const navigate = useNavigate()
+  useEffect(() => {
     if (isAuthUser) {
       navigate(link)
     }
@@ -100,7 +100,7 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>SIGN IN</Title>
+        <Title>LOG IN</Title>
         <Form>
           <Input
             type='email'

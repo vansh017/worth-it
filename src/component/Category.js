@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { category } from '../data'
 import SingleCategory from './SingleCategory'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   margin-top: 50px;
@@ -17,16 +18,23 @@ const Container = styled.div`
 `
 const Heading = styled.div`
   font-size: 20px;
+  display: flex;
+  justify-content: space-between;
 `
 const Items = styled.div`
   display: flex;
   object-fit: contain;
 `
 function Category() {
+  const navigate = useNavigate()
+
   return (
     <Container>
       <Heading>
         <h4>Categories</h4>
+        <h4 onClick={() => navigate('/products')} style={{ cursor: 'pointer' }}>
+          All Category
+        </h4>
       </Heading>
       <Items>
         {category.map((item) => (

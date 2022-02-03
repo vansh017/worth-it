@@ -43,9 +43,10 @@ const ProductDetails = styled.div`
   /* justify-content: space-between; */
 `
 const Image = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 22vw;
+  height: 25vh;
   cursor: pointer;
+  object-fit: contain;
 `
 const Details = styled.div`
   padding: 20px;
