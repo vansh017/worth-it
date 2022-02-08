@@ -4,7 +4,7 @@ import SingleItem from './SingleItem'
 import { getProduct } from '../action/productAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import SortJsonArray from 'sort-json-array'
 const Container = styled.div`
   /* margin-top: 50px; */
   /* display: flex; */
@@ -46,6 +46,7 @@ function NewItems() {
     navigate('/products')
   }
 
+  console.log(SortJsonArray(products, 'createdAt', 'des'))
   useEffect(() => {
     dispatch(getProduct())
   }, [dispatch])

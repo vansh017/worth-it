@@ -12,6 +12,14 @@ import {
   LOAD_FAILED,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+  UPDATE_PROFILE_FAILED,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_RESET,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_RESET,
+  UPDATE_PASSWORD_FAILED,
 } from '../reducers/constant/allConstant'
 
 export const login = (email, password) => async (dispatch) => {
@@ -84,6 +92,43 @@ export const logout = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGOUT_FAILED,
+      payload: error.response.data.message,
+    })
+  }
+}
+export const updateProfile = (name, email) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST })
+    const config = { headers: { 'Content-Type': 'application/json' } }
+
+    const { data } = await axios.put(`/api/register`, { name, email }, config)
+
+    dispatch({
+      type: UPDATE_PROFILE_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAILED,
+      payload: error.response.data.message,
+    })
+  }
+}
+
+export const updatePassword = (passwords) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST })
+    const config = { headers: { 'Content-Type': 'application/json' } }
+
+    const { data } = await axios.put(`/api/password/update`, passwords, config)
+
+    dispatch({
+      type: UPDATE_PASSWORD_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PASSWORD_FAILED,
       payload: error.response.data.message,
     })
   }

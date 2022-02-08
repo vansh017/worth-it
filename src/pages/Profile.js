@@ -76,7 +76,7 @@ const Field = styled.p`
   color: rgba(0, 0, 0, 10);
 `
 const TwoBtn = styled.div`
-  display: flex;
+  /* display: flex; */
 `
 // const Btn = styled.div`
 //   font: 900 2.5vmax;
@@ -123,11 +123,12 @@ function Profile() {
         </Info>
         <TwoBtn>
           <Btn onClick={() => navigate('/dashboard')}>dashboard</Btn>
-          <Btn onClick={() => navigate('/password/update')}>
+          <Btn onClick={() => navigate('/profile/updatePassword')}>
             update Password
           </Btn>
           <Btn onClick={handleLogout}>Logout</Btn>
           <Btn onClick={() => navigate('/additem')}>AddItem</Btn>
+          <Btn onClick={() => navigate('/profile/update')}>Update Profile</Btn>
         </TwoBtn>
       </Right>
     </Container>

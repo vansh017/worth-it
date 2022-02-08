@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
-import { loadUser } from './action/userAction'
+import { updateProfile, clearError, loadUser } from './action/userAction'
 import './App.css'
 import Footer from './component/Footer'
 import Navbar from './component/Navbar'
@@ -16,10 +16,11 @@ import Login from './pages/Login'
 import ProfileOption from './pages/ProfileOption.js'
 import ProductDetails from './pages/ProductDetails'
 import Signup from './pages/Signup'
-import Profile from './pages/Profile'
-// import UpdateProfile from './pages/UpdateProfile'
+import Profile from './pages/Profile.js'
 import store from './store'
-
+// import ProtectedRoute from './component/route/ProtectedRoute'
+import UpdateProfile from './pages/UpdateProfile'
+import UpdatePassword from './pages/UpdatePassword'
 const Container = styled.div``
 
 function App() {
@@ -45,7 +46,8 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/forgotPassword' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<DashBoard />} />
-          {/* <Route path='/profile/update' component={<UpdateProfile />} /> */}
+          <Route path='/profile/update' element={<UpdateProfile />} />
+          {/* <Route path='profile/updatePassword' element={<UpdatePassword />} /> */}
         </Routes>
 
         <Footer />
