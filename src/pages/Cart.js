@@ -169,10 +169,6 @@ function Cart() {
                 <SummaryText>Price : </SummaryText>
                 <SummaryPrice>₹{cost}</SummaryPrice>
               </SummaryItem>
-              <SummaryItem>
-                <SummaryText>Address : </SummaryText>
-                <SummaryText>abc ,abc ,abc 364834</SummaryText>
-              </SummaryItem>
 
               <Button>Change Address</Button>
               <Button onClick={() => navigate('/login?redirect=shipping')}>

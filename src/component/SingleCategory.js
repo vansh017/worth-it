@@ -43,7 +43,7 @@ const Title = styled.h1`
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: black;
-  font-weight: 900;
+  font-weight: 700;
 `
 
 function SingleCategory({ item }) {

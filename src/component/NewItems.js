@@ -22,7 +22,7 @@ const Container = styled.div`
   width: 90vw;
 `
 const Heading = styled.div`
-  font-weight: bolder;
+  /* font-weight: bolder; */
   font-size: 25px;
   /* margin: 2px; */
   padding-top: 2px;

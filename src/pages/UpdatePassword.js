@@ -37,7 +37,6 @@ const Wrapper = styled.div`
 `
 
 const Form = styled.form`
-  type: submit;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;

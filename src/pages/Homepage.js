@@ -16,7 +16,7 @@ const TextOnImage = styled.div`
   left: 10%;
   /* bottom: 10%; */
   top: 10%;
-  font-weight: bolder;
+  /* font-weight: bolder; */
   justify-content: space-between;
   position: absolute;
   /* background-color: #f9f9f9; */

@@ -2,6 +2,9 @@ import {
   ALL_PRODUCT_FAILED,
   ALL_PRODUCT_REQUEST,
   ALL_PRODUCT_SUCCESS,
+  MY_PRODUCTS_FAIL,
+  MY_PRODUCTS_REQUEST,
+  MY_PRODUCTS_SUCCESS,
   NEW_PRODUCT_FAILED,
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
@@ -80,3 +83,23 @@ export const createProduct =
       })
     }
   }
+
+export const getMyProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: MY_PRODUCTS_REQUEST,
+    })
+
+    const { data } = await axios.get('/api/myProducts')
+
+    dispatch({
+      type: MY_PRODUCTS_SUCCESS,
+      payload: data.products,
+    })
+  } catch (error) {
+    dispatch({
+      type: MY_PRODUCTS_FAIL,
+      payload: error.response.data.message,
+    })
+  }
+}

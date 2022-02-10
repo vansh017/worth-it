@@ -27,14 +27,18 @@ const Cover = styled.div`
 
 const Left = styled.div`
   flex: 1;
-  font-weight: 900;
-  cursor: pointer;
+  /* font-weight: 500; */
+  /* cursor: pointer; */
   @media (max-width: 600px) {
     flex: 0.5;
     padding: 0%;
   }
 `
-const Title = styled.h2``
+const Title = styled.h2`
+  cursor: pointer;
+  max-width: 2vw;
+  font-weight: 200;
+`
 const SearchContainer = styled.div`
   border: 1px solid grey;
   display: flex;
@@ -51,7 +55,7 @@ const Input = styled.input`
   height: 30px;
   background-color: #f6f7f6;
   outline: none;
-  font-weight: 700;
+  /* font-weight: 700; */
   font-size: 15px;
   width: 18vw;
   @media (max-width: 600px) {
@@ -79,7 +83,7 @@ const Right = styled.div`
 `
 const Options = styled.div`
   color: black;
-  font-weight: bold;
+  /* font-weight: bold; */
   padding: 3px;
   margin: 5px;
   font-size: 16px;

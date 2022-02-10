@@ -21,6 +21,9 @@ import store from './store'
 // import ProtectedRoute from './component/route/ProtectedRoute'
 import UpdateProfile from './pages/UpdateProfile'
 import UpdatePassword from './pages/UpdatePassword'
+import Shipping from './pages/Shipping.js'
+import ConfirmOrder from './pages/ConfirmOrder'
+import OrderDetails from './pages/OrderDetails'
 const Container = styled.div``
 
 function App() {
@@ -47,6 +50,9 @@ function App() {
           <Route path='/profile/forgotPassword' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<DashBoard />} />
           <Route path='/profile/update' element={<UpdateProfile />} />
+          <Route path='/login/shipping' element={<Shipping />} />
+          <Route path='/order/confirm' element={<ConfirmOrder />} />
+          <Route path='/order/:id' element={<OrderDetails />} />
           {/* <Route path='profile/updatePassword' element={<UpdatePassword />} /> */}
         </Routes>
 

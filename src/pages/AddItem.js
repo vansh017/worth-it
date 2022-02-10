@@ -13,7 +13,7 @@ const Container = styled.div`
     url(https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/2017/09/13204610/13092017_Books_02.jpg)
       center;
   display: flex;
-  font-weight: 900;
+  /* font-weight: 900; */
 
   align-items: center;
   justify-content: center;
@@ -29,12 +29,12 @@ const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  font-weight: 900;
+  /* font-weight: 900; */
 `
 
 const Title = styled.h1`
   font-size: 24px;
-  font-weight: 900;
+  /* font-weight: 900; */
 `
 
 const Input = styled.input`
@@ -42,7 +42,7 @@ const Input = styled.input`
   min-width: 40%;
   margin: 20px 10px 0px 0px;
   padding: 10px;
-  font-weight: 900;
+  /* font-weight: 900; */
 `
 
 const Button = styled.button`
@@ -51,7 +51,7 @@ const Button = styled.button`
   color: 'white';
   font-size: 17px;
   margin: 1em;
-  font-weight: 900;
+  /* font-weight: 900; */
   border-radius: 3px;
   cursor: pointer;
 `
@@ -61,7 +61,7 @@ const Button1 = styled.button`
   color: 'white';
   font-size: 12px;
   margin: 1em;
-  font-weight: 900;
+  /* font-weight: 900; */
   border-radius: 3px;
   cursor: pointer;
 `
