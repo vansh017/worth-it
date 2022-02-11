@@ -105,6 +105,9 @@ const ConfirmOrder = () => {
     dispatch(createOrder(order))
 
     alert.success('Order Placed Successfully ')
+    setTimeout(() => {
+      // console.log('World!')
+    }, 1000)
     navigate('/dashboard')
   }
 

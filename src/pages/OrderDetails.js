@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom'
 import { getOrderDetails, clearErrors } from '../action/orderAction'
 import { useAlert } from 'react-alert'
 
-const Container = styled.div`
+const Container = styled.div``
+const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `
@@ -66,64 +67,74 @@ const SummaryText = styled.div``
 const SummaryPrice = styled.div``
 
 function OrderDetails() {
-  // myOrdersorders
-  const { orders, error } = useSelector((state) => state.myOrders)
+  // myOrders orders
+
+  const { order, error } = useSelector((state) => state.orderDetails)
   const { id } = useParams()
   const dispatch = useDispatch()
   const alert = useAlert()
   let cost = 0
 
-  orders.orderItems.map((i) => (cost += i.price))
+  //   console.log(order)
+
+  //   orders.orderItems.map((i) => (cost += i.price))
 
   //   console.log(cost)
   useEffect(() => {
-    if (error) {
-      alert.error(error)
-      dispatch(clearErrors())
-    }
+    // if (error) {
+    //   alert.error(error)
+    //   dispatch(clearErrors())
+    // }
     dispatch(getOrderDetails(id))
-  }, [dispatch, alert, error, id])
+  }, [dispatch, id])
 
+  const address = order.createdAt.slice(0, 10)
   return (
     <Container>
       <Heading>OrderID #{id}</Heading>
-      <Left>
-        <Heading>Shipping Details</Heading>
-        <Address>
-          <p>Name:</p>
-          {/* <span>{user.name}</span> */}
-          {/* <span>{user.email}</span> */}
+      <Wrapper>
+        <Left>
+          <Heading>Shipping Details</Heading>
+          <Address>
+            <p>Name:</p>
+            {/* <span>{user.name}</span> */}
+            {/* <span>{user.email}</span> */}
 
-          <p>
-            Mobile Number :<span>{orders.mobileNo}</span>
-          </p>
-          <p>
-            Address :<span>{orders.address}</span>
-          </p>
-        </Address>
-        <Item>
-          <Heading>Items</Heading>
-          {orders.orderItems &&
-            orders.orderItems.map((i) => (
-              <Info>
-                <Image src={i.image} />
-                <Title>{i.name}</Title>
-                <Price>₹{i.price}</Price>
-              </Info>
-            ))}
-        </Item>
-      </Left>
-      <Right>
-        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-        <SummaryItem>
-          <SummaryText>Total Product : </SummaryText>
-          {/* <SummaryPrice>{orders.orderItems.length}</SummaryPrice> */}
-        </SummaryItem>
-        <SummaryItem>
-          <SummaryText>Price : </SummaryText>
-          <SummaryPrice>₹{cost}</SummaryPrice>
-        </SummaryItem>
-      </Right>
+            <p>
+              Mobile Number : <span>{order.phoneNo}</span>
+            </p>
+            <p>
+              Ordered On : <span>{order.createdAt.slice(0, 10)}</span>
+            </p>
+
+            <p>
+              Address :<span>{order.address}</span>
+            </p>
+          </Address>
+          <Item>
+            <Heading>Items</Heading>
+            {order.orderItems &&
+              order.orderItems.map((i) => (
+                <Info>
+                  <Image src={i.image} />
+                  <Title>{i.name}</Title>
+                  <Price>₹{i.price}</Price>
+                </Info>
+              ))}
+          </Item>
+        </Left>
+        <Right>
+          <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+          <SummaryItem>
+            <SummaryText>Total Product : </SummaryText>
+            {/* <SummaryPrice>{orders.orderItems.length}</SummaryPrice> */}
+          </SummaryItem>
+          <SummaryItem>
+            <SummaryText>Price : </SummaryText>
+            <SummaryPrice>₹{cost}</SummaryPrice>
+          </SummaryItem>
+        </Right>
+      </Wrapper>
     </Container>
   )
 }

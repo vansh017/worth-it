@@ -16,7 +16,7 @@ const TextOnImage = styled.div`
   left: 10%;
   /* bottom: 10%; */
   top: 10%;
-  /* font-weight: bolder; */
+
   justify-content: space-between;
   position: absolute;
   /* background-color: #f9f9f9; */
@@ -34,9 +34,7 @@ function Homepage() {
         style={{ width: '100vw', height: '90vh' }}
       />
       <TextOnImage>
-        <h1>
-          <b>Help Others to study.</b>
-        </h1>
+        <h1>Help Others to study.</h1>
 
         <h2>Make world better place</h2>
       </TextOnImage>

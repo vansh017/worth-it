@@ -11,22 +11,23 @@ const Wrapper = styled.div`
   padding: 20px;
   text-align: center;
 `
-const Title = styled.h1``
+const Title = styled.h1`
+  font-weight: 400;
+`
 const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `
-const Button = styled.button`
-  font-weight: 900;
+const Btn = styled.button`
+  font-weight: 400;
+  color: #ecb474;
   padding: 8px;
   justify-content: space-between;
   margin: 5px;
-  border: 2px solid blue;
-
+  border: 2px solid gray;
   cursor: pointer;
-
-  background-color: lightsteelblue;
+  background-color: #4e4c50;
 `
 const Bottom = styled.div`
   display: flex;
@@ -57,10 +58,11 @@ const Details = styled.div`
 `
 const Name = styled.h3`
   font-size: ${(props) => props.name === 'seller' && '13px'};
+  font-weight: 400;
 `
 const Price = styled.span`
-  font-weight: 900;
-  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 200;
+  /* font-family: Arial, Helvetica, sans-serif; */
   font-size: larger;
 `
 
@@ -72,12 +74,12 @@ const Summary = styled.div`
   margin-left: 20px;
   padding: 20px;
   height: 50vh;
-  font-weight: bolder;
+  font-weight: 400;
   max-width: 25vw;
   height: 40vh;
 `
 const SummaryTitle = styled.h2`
-  font-weight: 900;
+  font-weight: 400;
 `
 const SummaryItem = styled.div`
   margin: 30px 0px;
@@ -89,12 +91,11 @@ const SummaryPrice = styled.div``
 const Product = styled.div`
   background-color: rgb(51, 51, 51);
   color: white;
-  font-weight: 900;
+  font-weight: 400;
   font-size: 1.4vmax;
   margin: 1vmax;
   padding: 1vmax 3vmax;
   cursor: pointer;
-
   text-decoration: none;
   border-radius: 1vmax;
 `
@@ -146,12 +147,10 @@ function Cart() {
                   <Details>
                     <Name>{item.name}</Name>
                     <Name name='seller'>From : {item.sellerName}</Name>
-                    <Price>
-                      <b>₹{item.price}</b>
-                    </Price>
+                    <Price>₹{item.price}</Price>
                     <Tooltip title='Remove Item'>
                       <RemoveCircleOutline
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer', color: '#2c2c2c' }}
                         onClick={() => removeItem(item.product)}
                       />
                     </Tooltip>
@@ -170,10 +169,9 @@ function Cart() {
                 <SummaryPrice>₹{cost}</SummaryPrice>
               </SummaryItem>
 
-              <Button>Change Address</Button>
-              <Button onClick={() => navigate('/login?redirect=shipping')}>
+              <Btn onClick={() => navigate('/login?redirect=shipping')}>
                 CHECK OUT
-              </Button>
+              </Btn>
             </Summary>
           </Bottom>
         </Wrapper>

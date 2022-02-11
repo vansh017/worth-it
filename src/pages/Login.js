@@ -82,7 +82,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault()
     // console.log(e)
-
     dispatch(login(email, password))
     if (error) {
       alert.error(error)
