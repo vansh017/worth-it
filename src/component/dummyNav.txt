@@ -1,0 +1,42 @@
+import React from 'react'
+import { makeStyles, TextField } from '@material-ui/core'
+import { Search } from '@mui/icons-material'
+
+const useStyles = makeStyles(() => ({
+  navbar: {
+    padding: '15px 20px  ',
+    height: '40px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    background: 'transparent',
+    backgroundImage: `https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80`,
+  },
+  logo: {
+    flex: 1,
+  },
+  search: {
+    display: 'flex',
+    flex: 1,
+    contain: 'content',
+    alignItems: 'center',
+  },
+  profile: {
+    flex: 1,
+  },
+}))
+
+function Navbar() {
+  const classes = useStyles()
+  return (
+    <div className={classes.navbar}>
+      <div className={classes.logo}>WorthIT</div>
+      <div className={classes.search}>
+        <TextField label='search' variant='outlined'></TextField>
+        <Search />
+      </div>
+      <div className={classes.profile}>cart profile</div>
+    </div>
+  )
+}
+
+export default Navbar
