@@ -16,6 +16,7 @@ const Container = styled.div`
   border-radius: 5px;
   margin: 50px;
   padding: 20px;
+  background-color:#CDFAFF;
 
   overflow-x: scroll;
 

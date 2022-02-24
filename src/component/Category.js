@@ -5,21 +5,29 @@ import SingleCategory from './SingleCategory'
 import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
-  margin-top: 50px;
-  /* flex: 1; */
-  /* border: 2px solid gray; */
-
+  /* margin-top: 50px; */
+  /* display: flex; */
+  /* flex-wrap: hidden; */
+  justify-content: center;
+  align-items: center;
+  border: 2px solid gray;
+  /* object-fit: contain; */
   border-radius: 5px;
-  margin-left: 50px;
-  /* margin-right: 20px; */
+  margin: 50px;
+  padding: 20px;
+  background-color:#CDFAFF;
+
   overflow-x: scroll;
 
-  width: 90%;
+  width: 90vw;
 `
 const Heading = styled.div`
-  font-size: 20px;
-  display: flex;
+   /* font-weight: bolder; */
+   font-size: 25px;
+  /* margin: 2px; */
+  padding-top: 2px;
   justify-content: space-between;
+  display: flex;
 `
 const Items = styled.div`
   display: flex;

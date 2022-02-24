@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createProduct } from '../action/productAction'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { clearErrors } from '../action/orderAction'
+import { NEW_PRODUCT_RESET } from '../reducers/constant/allConstant'
+import { useAlert } from 'react-alert'
+import { MenuItem, Select } from '@mui/material'
 
 const Container = styled.div`
   width: 100vw;
@@ -15,7 +20,6 @@ const Container = styled.div`
       center;
   display: flex;
   /* font-weight: 900; */
-
   align-items: center;
   justify-content: center;
 `
@@ -38,6 +42,11 @@ const Title = styled.h1`
   /* font-weight: 900; */
 `
 
+const PreviewImg = styled.img`
+  width: 15vw;
+  height: 15vh;
+  display: flex;
+`
 const Input = styled.input`
   flex: 1;
   min-width: 40%;
@@ -55,6 +64,10 @@ const Button = styled.button`
   /* font-weight: 900; */
   border-radius: 3px;
   cursor: pointer;
+`
+const Prv = styled.div`
+  display: flex;
+  overflow: auto;
 `
 const Button1 = styled.button`
   width: 10%;
@@ -75,7 +88,20 @@ const AddItem = () => {
   const [category, setCategory] = useState('')
   const [images, setImages] = useState([])
   const [imagesPreview, setImagesPreview] = useState([])
-  const { register } = useForm()
+  // const { register } = useForm()
+  const navigate = useNavigate()
+  const alert = useAlert()
+  const categories = [
+    'Books',
+    'Electronics',
+    'Chemical',
+    'Mechanical',
+    'Civil',
+    'Computer',
+    'Other',
+  ]
+
+  const { loading, error, success } = useSelector((state) => state.newProduct)
 
   // const myForm = new FormData()
 
@@ -84,10 +110,44 @@ const AddItem = () => {
   // myForm.set('description', description)
   // myForm.set('category', category)
   // console.log(myForm.get(name))
+  useEffect(() => {
+    if (error) {
+      alert.error(error)
+      dispatch(clearErrors())
+    }
+
+    if (success) {
+      alert.success('Product Created Successfully')
+      navigate('/dashboard')
+      dispatch({ type: NEW_PRODUCT_RESET })
+    }
+  }, [dispatch, alert, error, success])
 
   const handleUp = () => {
-    dispatch(createProduct(name, description, price, category,images))
+    dispatch(createProduct(name, description, price, category, images))
+    navigate('/dashboard')
   }
+
+  const createProductImagesChange = (e) => {
+    const files = Array.from(e.target.files)
+
+    setImages([])
+    setImagesPreview([])
+
+    files.forEach((file) => {
+      const reader = new FileReader()
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result])
+          setImages((old) => [...old, reader.result])
+        }
+      }
+
+      reader.readAsDataURL(file)
+    })
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -105,12 +165,15 @@ const AddItem = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <Input
-            placeholder='Category'
-            required
+          <Select
+            onChange={(event) => setCategory(event.target.value)}
+            style={{ width: '100%', margin: '5px' }}
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
+          >
+            {categories.map((c) => (
+              <MenuItem value={c}>{c}</MenuItem>
+            ))}
+          </Select>
 
           <Input
             type='number'
@@ -120,12 +183,20 @@ const AddItem = () => {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
-          <FileBase64
-        multiple={ true }
-        onDone={ ({base64})=> setImages({...images, images:base64})  } />
+          <Input
+            type='file'
+            name='avatar'
+            accept='image/*'
+            onChange={createProductImagesChange}
+            multiple
+          />
+          <Prv>
+            {imagesPreview.map((image, index) => (
+              <PreviewImg key={index} src={image} alt='Product Preview' />
+            ))}
+          </Prv>
         </Form>
-        <Button1>Upload</Button1>
-        <br></br>
+
         <Button onClick={() => handleUp()}>
           <b>SUBMIT</b>
         </Button>

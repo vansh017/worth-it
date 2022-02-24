@@ -80,7 +80,7 @@ const Login = () => {
   // console.log(email)
   // console.log(password)
   const handleLogin = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     // console.log(e)
     dispatch(login(email, password))
     if (error) {

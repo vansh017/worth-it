@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import Category from '../component/Category'
 import NewItems from '../component/NewItems'
+import Hero from '../component/Hero'
+import { SliderData } from '../component/SliderData'
 
 const Container = styled.div`
   position: relative;
@@ -19,6 +21,7 @@ const TextOnImage = styled.div`
 
   justify-content: space-between;
   position: absolute;
+  background-color:#CDFAFF
   /* background-color: #f9f9f9; */
 
   /* display: flex; */
@@ -28,17 +31,18 @@ const TextOnImage = styled.div`
 function Homepage() {
   return (
     <Container>
-      <Photo
+
+      {/* <Photo
         src='https://images.unsplash.com/photo-1468779036391-52341f60b55d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1368&q=80'
         alt='book-image'
         style={{ width: '100vw', height: '90vh' }}
-      />
-      <TextOnImage>
+      /> */}
+      {/* <TextOnImage>
         <h1>Help Others to study.</h1>
 
         <h2>Make world better place</h2>
-      </TextOnImage>
-
+      </TextOnImage> */}
+<Hero slides={SliderData}/>
       <NewItems />
       <Category />
     </Container>

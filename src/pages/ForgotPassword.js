@@ -1,21 +1,9 @@
-import '../App.css'
-import React,{Fragment} from 'react';
-import { MailOutline, RedeemRounded } from '@mui/icons-material';
-import Loader from './Loader/Loader';
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { clearError, forgotPassword} from '../action/userAction';
-
-import { useAlert } from 'react-alert';
-import { UPDATE_PASSWORD_RESET } from '../reducers/constant/allConstant';
-import { registerUser } from '../action/userAction';
-import { LockOpen } from '@mui/icons-material';
-import { VpnKey} from '@mui/icons-material';
-import { Lock } from '@mui/icons-material';
-
+import { clearErrors } from '../action/orderAction'
+import { forgotPassword } from '../action/userAction'
 
 const Container = styled.div`
   width: 100vw;
@@ -61,10 +49,8 @@ const Button = styled.button`
   padding: 15px 20px;
   color: 'black';
   font-weight: 900;
-
   font-size: 0.8em;
   margin: 1em;
-
   border-radius: 3px;
   cursor: pointer;
   margin-bottom: 10px;
@@ -72,89 +58,61 @@ const Button = styled.button`
 const Button1 = styled.button`
   width: 30%;
   height: 10%;
-
   padding: 15px 20px;
   color: 'black';
   font-weight: 900;
-
   font-size: 0.8em;
   margin: 1em;
-
   border-radius: 3px;
   cursor: pointer;
   margin-bottom: 10px;
 `
 
-// const Link = styled.a`
-//   margin: 5px 0px;
-//   font-size: 12px;
-//   text-decoration: underline;
-//   cursor: pointer;
-//   font-weight: 900;
-// `
+const Link = styled.a`
+  margin: 5px 0px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 900;
+`
 
-const ForgotPassword = () => {
+const ForgotPassword = (e) => {
+  // e.preventDefault()
+  const [email, setEmail] = useState('')
+  const dispatch = useDispatch()
+  const alert = useAlert()
+  const { error, message, loading } = useSelector(
+    (state) => state.forgotPassword
+  )
+  const handleReset = () => {
+    console.log(email)
+    dispatch(forgotPassword(email))
+  }
+  // useEffect(() => {
+  //   if (error) {
+  //     alert.error(error)
+  //     dispatch(clearErrors())
+  //   }
 
- 
-const {error, message} = useSelector((state)=>state.forgotPassword);
-const [email, setemail] = useState("");
-  const dispatch = useDispatch();
-  const alert = useAlert();
-
-
- const forgotPasswordSubmit = (e) =>{
-    e.preventDefault();
-   
-
-    
- 
-    // myform.set("avatar",avatar);
-    dispatch(forgotPassword(email));
-  };
-  
-   useEffect(()=>{
-   // setAvatar(user.avatar)
-    
-    
-        if (error){
-          alert.error(error);
-          dispatch(clearError());
-        }
-        if(message){
-       alert.success(message);
-      
-      
-    
-      
-      }
-      },
-      [dispatch, error, alert,message]);
+  //   if (message) {
+  //     alert.success(message)
+  //   }
+  // }, [dispatch, error, alert, message])
 
   return (
     <Container>
       <Wrapper>
         <Title>Reset Password</Title>
-        <Form >
-          <Input  type='email'
-            placeholder='Enter Email Address'
-            required
-            value={email}
-            onChange={(e) => {
-              setemail(e.target.value)
-            }}/>
-          <Button1 onClick={(e) =>forgotPassswordSubmit(e)}>Send OTP</Button1>
-          {/* <Input placeholder='Enter OTP' />
-          <Input placeholder='Enter New Password' />
-          <Input placeholder='Retype Password' />
-          <input
-                  type="submit"
-                  value="Update Password"
-                  className="updatePasswordBtn"
-                />
-           */}
 
-          {/* <label >New at Worth It?</label> */}
-        </Form>
+        <Input
+          placeholder='Enter your email address'
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Button1>Send OTP</Button1>
+
+        <Button onClick={() => handleReset()}>Reset</Button>
+
+        {/* <label >New at Worth It?</label> */}
       </Wrapper>
     </Container>
   )

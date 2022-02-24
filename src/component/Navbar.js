@@ -5,11 +5,12 @@ import { Badge, SpeedDial, SpeedDialAction } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import Signup from '../pages/Signup'
 import { useSelector } from 'react-redux'
-
+import AddAlertIcon from '@mui/icons-material/AddAlert';
 
 const Container = styled.div`
   height: 60px;
-  background-color: #f6f7f6;
+  background-color:#CDFAFF;
+  
   align-items: center;
   width: 100vw;
   justify-content: space-evenly;
@@ -155,6 +156,7 @@ function Navbar({ isAuthUser }) {
               <Options onClick={() => navigate('/login')}>LOG IN</Options>
             </>
           )}
+
           <Badge badgeContent={cartItems.length} color='secondary'>
             <LocalGroceryStoreOutlined
               style={{ marginLeft: '5px', cursor: 'pointer' }}
@@ -169,6 +171,11 @@ function Navbar({ isAuthUser }) {
               style={{ cursor: 'pointer' }}
             />
           )}
+          <AddAlertIcon
+              onClick={() => navigate('/allRequests')}
+              fontSize='large'
+              style={{ cursor: 'pointer' }}
+            />
          
           {/* <SpeedDial
             ariaLabel='SpeedDail tooltip example'

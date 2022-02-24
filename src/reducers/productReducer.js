@@ -9,6 +9,7 @@ import {
   NEW_PRODUCT_FAILED,
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
+  NEW_PRODUCT_RESET,
   PRODUCT_DETAILS_FAILED,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -60,7 +61,6 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
       return state
   }
 }
-
 export const newProductReducer = (state = { product: {} }, action) => {
   switch (action.type) {
     case NEW_PRODUCT_REQUEST:
@@ -79,6 +79,11 @@ export const newProductReducer = (state = { product: {} }, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      }
+    case NEW_PRODUCT_RESET:
+      return {
+        ...state,
+        success: false,
       }
 
     default:
