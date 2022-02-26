@@ -3,37 +3,58 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import {
   myProductsReducer,
+  newProductReducer,
   productDetailsReducer,
   productReducer,
+  productsReducer,
 } from './reducers/productReducer'
-import { userReducer, registerUserReducer , forgotPasswordReducer } from './reducers/userReducer'
-import { profileReducer} from './reducers/userReducer'
+import {
+  userReducer,
+  registerUserReducer,
+  forgotPasswordReducer,
+  allUsersReducer,
+  profileReducer,
+} from './reducers/userReducer'
 import { cartReducer } from './reducers/cartReducer'
 import {
+  allOrdersReducer,
   myOrdersReducer,
   newOrderReducer,
   orderDetailsReducer,
+  orderReducer,
 } from './reducers/orderReducer'
-import { allRequestReducer, myRequestReducer, newRequestReducer, requestReducer } from './reducers/requestReducer'
-import { getMyRequests } from './action/requestAction'
+import {
+  allRequestReducer,
+  myRequestReducer,
+  newRequestReducer,
+  requestReducer,
+} from './reducers/RequestReducer'
 // import {  } from './action/userAction'
 
 const reducer = combineReducers({
-  products: productReducer,
+  products: productsReducer,
+  product: productReducer,
   productDetails: productDetailsReducer,
+
   myProducts: myProductsReducer,
   user: userReducer,
+
   registerUser: registerUserReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
   myOrders: myOrdersReducer,
+  order: orderReducer,
+  allOrders: allOrdersReducer,
   orderDetails: orderDetailsReducer,
-  forgotPassword:forgotPasswordReducer,
-  request:requestReducer,
-  newRequest:newRequestReducer,
-  profile:profileReducer,
-  myRequests:myRequestReducer,
-allRequests:allRequestReducer
+  newProduct: newProductReducer,
+  newRequest: newRequestReducer,
+  forgotPassword: forgotPasswordReducer,
+  allUsers: allUsersReducer,
+  profile: profileReducer,
+  requestDetail: requestReducer,
+  myRequests: myRequestReducer,
+  allRequests: allRequestReducer,
+
   // removeCart: removeCartItem,
 })
 

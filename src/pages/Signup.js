@@ -18,6 +18,7 @@ const Container = styled.div`
   justify-content: center;
   font-weight: 400;
   background-color: #e7e8e9;
+
   @media (max-width: 600px) {
     justify-content: flex-start;
   }
@@ -27,6 +28,7 @@ const Wrapper = styled.div`
   width: 36%;
   padding: 2vw;
   background-color: #f3f8fb;
+
   margin: 10vw;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
@@ -49,6 +51,7 @@ const Form = styled.form`
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 300;
+
   color: #252a2a;
 `
 
@@ -101,6 +104,7 @@ const Image = styled.img`
   font: 400 0.8vmax;
   transition: all 0.5s;
   /* padding: 1vmax; */
+
   color: rgba(0, 0, 0, 0.623);
   background-color: rgb(255, 255, 255);
 `

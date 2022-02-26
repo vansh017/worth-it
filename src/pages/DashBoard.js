@@ -1,4 +1,4 @@
-import { Delete, LaunchOutlined } from '@mui/icons-material'
+import { Delete, Edit, LaunchOutlined } from '@mui/icons-material'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -7,9 +7,16 @@ import { DataGrid } from '@mui/x-data-grid'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import MyProducts from './MyProducts'
-import { getMyProducts } from '../action/productAction'
-import { getMyRequests , deleteRequest} from '../action/requestAction'
+import {
+  deleteProduct,
+  getMyProducts,
+  getProductDetails,
+} from '../action/productAction'
+import { DELETE_PRODUCT_RESET } from '../reducers/constant/allConstant'
 import { useAlert } from 'react-alert'
+import { Button } from '@mui/material'
+import { deleteRequest } from '../action/requestAction'
+
 const Container = styled.div``
 const Buy = styled.div``
 const Orders = styled.div`
@@ -27,7 +34,7 @@ const Orders = styled.div`
 const Item = styled.div`
   display: flex;
   margin: 20px;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin: 3vh;
 `
@@ -35,6 +42,7 @@ const Image = styled.img`
   width: 120px;
   height: 120px;
 `
+const Req = styled.div``
 const Info = styled.div`
   margin-left: 10px;
 `
@@ -52,32 +60,24 @@ const Title = styled.h3`
   flex-wrap: wrap;
   max-width: 30vw;
 `
+const Status = styled.h4``
 const Price = styled.h3``
-const Desc = styled.h3`
-text-align:center
-`
 const Sell = styled.div`
   margin: 20px;
-`
-const Req = styled.div`
-margin:20px
 `
 
 function DashBoard() {
   const dispatch = useDispatch()
-  const alert = useAlert()
   const { loading, error, orders } = useSelector((state) => state.myOrders)
   const { myProducts } = useSelector((state) => state.myProducts)
+  // const { product } = useSelector((state) => state.productsDetails)
+  const { myRequests } = useSelector((state) => state.myRequests)
   const { user } = useSelector((state) => state.user)
- const {myRequests}= useSelector((state) => state.myRequests)
+  const alert = useAlert()
   const navigate = useNavigate()
-  const handleDeleteRequest = (id) => {
-    dispatch(deleteRequest(id))
-  
-  //dispatch(navigate('/dashboard'))
-    alert.success('Request deleted Successfully ')
-  }
-
+  const { error: deleteError, isDeleted } = useSelector(
+    (state) => state.product
+  )
   const columns = [
     {
       field: 'id',
@@ -125,10 +125,50 @@ function DashBoard() {
       },
     },
   ]
-  
 
   const rows = []
-  
+  const reqColumns = [
+    {
+      field: 'Name',
+      headerName: 'Name',
+      minWidth: 300,
+      flex: 1,
+    },
+    {
+      field: 'Description',
+      headerName: 'Description',
+      minWidth: 150,
+      flex: 0.3,
+    },
+    {
+      field: 'actions',
+      flex: 0.3,
+      headerName: 'Actions',
+      minWidth: 150,
+      type: 'number',
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <Button
+            onClick={() => deleteRequest(params.getValue(params.id, 'id'))}
+          >
+            <Delete />
+          </Button>
+        )
+      },
+    },
+  ]
+
+  const reqRows = []
+
+  myRequests &&
+    myRequests.forEach((item, index) => {
+      rows.push({
+        id: item._id,
+        name: item.name,
+        description: item.description,
+      })
+    })
 
   orders &&
     orders.forEach((item, index) => {
@@ -140,61 +180,25 @@ function DashBoard() {
         date: item.createdAt.slice(0, 10),
       })
     })
-    const reqColumns = [
-      {
-        field: 'Name',
-        headerName: 'Name',
-        minWidth: 300,
-        flex: 1,
-      },
-      {
-        field: 'Description',
-        headerName: 'Description',
-        minWidth: 150,
-        flex: 0.3,
-      },
-      {
-        field: 'actions',
-        flex: 0.3,
-        headerName: 'Actions',
-        minWidth: 150,
-        type: 'number',
-        sortable: false,
-        renderCell: (params) => {
-          return (
-            <Fragment>
-             
-              <Button
-                onClick={() =>
-                  deleteRequest(params.getValue(params.id, 'id'))
-                }
-              >
-                <Delete />
-              </Button>
-            </Fragment>
-          )
-        },
-      },
-    ]
-
-    const reqRows = []
-
-    myRequests &&
-    myRequests.forEach((item, index) => {
-      reqRows.push({
-       
-        id: item._id,
-        name:item.name,
-        description:item.description
-      })
-    })
 
   useEffect(() => {
+    setTimeout(() => {}, 1000)
+
+    if (isDeleted) {
+      alert.success('Product Deleted Successfully')
+      // ('/admin/dashboard')
+      dispatch({ type: DELETE_PRODUCT_RESET })
+    }
     dispatch(myOrders())
     dispatch(getMyProducts())
-    dispatch(getMyRequests())
-  }, [])
+  }, [dispatch, alert, error, deleteError, isDeleted])
 
+  const handleDelete = (pid, uid) => {
+    // dispatch(getProductDetails(id))
+    if (user._id !== uid)
+      alert.error('You dont have permission to delete this product')
+    else dispatch(deleteProduct(pid))
+  }
   return (
     <Container>
       <Buy>
@@ -215,48 +219,37 @@ function DashBoard() {
       </Buy>
       <Sell>
         <Name>Items For Sell</Name>
+        <btn onClick={() => navigate('/addItem')}>Add item</btn>
+        <btn onClick={() => navigate('/requestItem')}>requestItem</btn>
         {myProducts.map((i) => (
           <Item>
-            <Image src={i.images[0].url} />
+            {/* <Image src={i.images[0].url} alt='product preview' /> */}
 
             <Title>{i.name}</Title>
             <Price>₹{i.price}</Price>
-            <Delete fontSize='large' />
+            <Status>{i.productStatus}</Status>
+            <Delete
+              fontSize='large'
+              onClick={() => handleDelete(i._id, i.userId)}
+            />
+            <Edit onClick={() => navigate(`/product/update/${i._id}`)} />
           </Item>
         ))}
       </Sell>
       <Req>
-      
-      <Name>Requests By User</Name>
-      <DataGrid
-            rows={reqRows}
-            columns={reqColumns}
-            pageSize={10}
-            disableSelectionOnClick
-            // className='myOrdersTable'
-            autoHeight
-            style={{
-              fontWeight: 300,
-            }}
-           / >
-      {myRequests.map((i)=>(
-        <Item>
-        
-        <rows><Title>{i.name}</Title></rows>
-        <rows><Desc>{i.description}</Desc></rows>
-       
-        <Delete fontSize='large' onClick={() => handleDeleteRequest(i._id)} />
-        </Item>
-      
-        
-      
-       ) )} 
-       
-
-       
-<Title></Title>
+        <Name>Requests By User</Name>
+        <DataGrid
+          rows={reqRows}
+          columns={reqColumns}
+          pageSize={10}
+          disableSelectionOnClick
+          // className='myOrdersTable'
+          autoHeight
+          style={{
+            fontWeight: 300,
+          }}
+        />
       </Req>
-      
     </Container>
   )
 }

@@ -6,14 +6,19 @@ import styled from 'styled-components'
 import { logout } from '../action/userAction'
 
 const Container = styled.div`
-  height: 90vh;
-  display: flex;
-  width: 100vw;
-  position: fixed;
-  top: 8.3vh;
-  left: 0;
-  max-width: 100%;
-  background-color: white;
+  margin-top: 20px;
+  height: 80vh;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  width: 80vw;
+  margin-left: 10vw;
+  /* margin-left: 10vw; */
+  background-color: #afe1f4;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
 `
 const Left = styled.div`
   display: flex;
@@ -27,34 +32,19 @@ const Heading = styled.h1`
   margin: 1vmax;
 `
 const Image = styled.img`
-  width: 40vw;
+  width: 20vw;
   /* height: 40vh; */
   border-radius: 50%;
   transition: all 0.5s;
-  /* margin: 1vmax; */
+  margin: 1vmax;
+  margin-left: 1vmax;
 `
 const Btn = styled.div`
   font: 900 2.5vmax;
   color: white;
-  background-color: black;
+  background-color: rgb(58, 57, 57);
   padding: 1vmax;
-  width: 30%;
-  margin: 2vmax;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.5s;
-
-  &:hover {
-    transform: scale(1.05);
-    /* background-color: red; */
-  }
-`
-const Btn1 = styled.div`
-  font: 900 2.5vmax;
-  color: white;
-  background-color: black;
-  padding: 1vmax;
-  width: 40%;
+  width: 25%;
   margin: 2vmax;
   text-align: center;
   cursor: pointer;
@@ -72,16 +62,19 @@ const Right = styled.div`
   height: 90vh;
   width: 100vw;
   max-width: 100%;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
+`
+const About = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap:wrap;
 `
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.5vmax;
-  align-items: flex-start;
-  justify-content: space-evenly;
+  margin: 1vmax;
 `
 const Name = styled.h4`
   color: black;
@@ -92,7 +85,8 @@ const Field = styled.p`
   color: rgba(0, 0, 0, 10);
 `
 const TwoBtn = styled.div`
-  /* display: flex; */
+  display: flex;
+  flex-wrap: wrap;
 `
 // const Btn = styled.div`
 //   font: 900 2.5vmax;
@@ -120,32 +114,64 @@ function Profile() {
 
   useEffect(() => {
     if (!isAuthUser) navigate('/login')
-  }, [])
+  }, [isAuthUser])
   return (
     <Container>
       <Left>
-        <Heading>My Profile</Heading>
-        <Image src='https://images.theconversation.com/files/45159/original/rptgtpxd-1396254731.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=754&fit=clip' />
-        <Btn onClick={() => navigate('/profile/update')}>Edit Profile</Btn>
+        <Heading>{user.name}'s profile</Heading>
       </Left>
       <Right>
-        <Info>
-          <Name>Full Name</Name>
-          <Field>{user.name}</Field>
-        </Info>
-        <Info>
-          <Name>Email</Name>
-          <Field>{user.email}</Field>
-        </Info>
+        <About>
+          <Info>
+            <Name>Full Name</Name>
+            <Field>{user.name}</Field>
+          </Info>
+          <Info>
+            <Name>Email</Name>
+            <Field>{user.email}</Field>
+          </Info>
+          {user.sem && (
+            <Info>
+              <Name>Sem</Name>
+              <Field>{user.sem}</Field>
+            </Info>
+          )}
+          {user.department && (
+            <Info>
+              <Name>Department</Name>
+              <Field>{user.department}</Field>
+            </Info>
+          )}
+          {user.mobileNo && (
+            <Info>
+              <Name>MobileNo</Name>
+              <Field>{user.mobileNo}</Field>
+            </Info>
+          )}
+          {user.address && (
+            <Info>
+              <Name>Address</Name>
+              <Field>{user.address}</Field>
+            </Info>
+          )}
+        </About>
+
         <TwoBtn>
-          <Btn onClick={() => navigate('/dashboard')}>dashboard</Btn>
-          <Btn onClick={() => navigate('/profile/updatePassword')}>
+          {user.role === 'admin' && (
+            <Btn onClick={() => navigate('/admin/products')}>dashboard</Btn>
+          )}
+
+          {user.role !== 'admin' && (
+            <Btn onClick={() => navigate('/dashboard')}>dashboard</Btn>
+          )}
+          <Btn onClick={() => navigate('/profile/update')}>Edit Profile</Btn>
+
+          <Btn onClick={() => navigate('/password/update')}>
             update Password
           </Btn>
           <Btn onClick={handleLogout}>Logout</Btn>
           <Btn onClick={() => navigate('/additem')}>AddItem</Btn>
           <Btn onClick={() => navigate('/profile/update')}>Update Profile</Btn>
-          <Btn1 onClick={() => navigate('/requestItem')}>RequestItem</Btn1>
         </TwoBtn>
       </Right>
     </Container>

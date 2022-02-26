@@ -5,6 +5,7 @@ import { getProduct } from '../action/productAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import SortJsonArray from 'sort-json-array'
+
 const Container = styled.div`
   /* margin-top: 50px; */
   /* display: flex; */
@@ -16,11 +17,13 @@ const Container = styled.div`
   border-radius: 5px;
   margin: 50px;
   padding: 20px;
-  background-color:#CDFAFF;
 
   overflow-x: scroll;
 
   width: 90vw;
+  @media (max-width: 600px) {
+    margin: 10px;
+  }
 `
 const Heading = styled.div`
   /* font-weight: bolder; */
@@ -34,6 +37,8 @@ const HeadingRight = styled.h4``
 
 const Items = styled.div`
   display: flex;
+  @media (max-width: 600px) {
+  }
 `
 
 function NewItems() {
@@ -47,7 +52,9 @@ function NewItems() {
     navigate('/products')
   }
 
-  console.log(SortJsonArray(products, 'createdAt', 'des'))
+  SortJsonArray(products, 'createdAt', 'des')
+  // let availableProducts = products.filter((i) => i.status !== 'sold')
+
   useEffect(() => {
     dispatch(getProduct())
   }, [dispatch])
@@ -61,7 +68,7 @@ function NewItems() {
       </Heading>
       <Items>
         {products &&
-          products.slice(13,17).map((item) => <SingleItem item={item} />)}
+          products.slice(0, 4).map((item) => <SingleItem item={item} />)}
       </Items>
     </Container>
   )

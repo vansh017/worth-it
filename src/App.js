@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
@@ -24,8 +24,14 @@ import UpdatePassword from './pages/UpdatePassword'
 import Shipping from './pages/Shipping.js'
 import ConfirmOrder from './pages/ConfirmOrder'
 import OrderDetails from './pages/OrderDetails'
+import UpdateProductDetails from './pages/UpdateProductDetails'
 import RequestItem from './pages/RequestItem'
-import AllRequests from './pages/AllRequests'
+import ResetPassword from './pages/ResetPassword'
+import Products from './pages/admin/ProductList'
+import OrderList from './pages/admin/OrderList'
+import UserList from './pages/admin/UserList'
+import Requests from './pages/Requests'
+
 const Container = styled.div``
 
 function App() {
@@ -51,13 +57,29 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/forgotPassword' element={<ForgotPassword />} />
           <Route path='/dashboard' element={<DashBoard />} />
+          <Route path='/requestItem' element={<RequestItem />} />
           <Route path='/profile/update' element={<UpdateProfile />} />
+          <Route path='/password/update' element={<UpdatePassword />} />
+          <Route path='/password/reset/:token' element={<ResetPassword />} />
           <Route path='/login/shipping' element={<Shipping />} />
           <Route path='/order/confirm' element={<ConfirmOrder />} />
           <Route path='/order/:id' element={<OrderDetails />} />
-          <Route path='/requestitem' element={<RequestItem/>} />
-          <Route path='profile/updatePassword' element={<UpdatePassword />} />
-          <Route path='/allRequests' element={<AllRequests/>} />
+
+          {/* admin routes */}
+          <Route path='/admin/products' element={<Products />} />
+          <Route path='/admin/orders' element={<OrderList />} />
+          <Route path='/admin/users' element={<UserList />} />
+
+          <Route path='/requests' element={<Requests />} />
+
+          <Route
+            path='/product/update/:id'
+            element={<UpdateProductDetails />}
+          />
+
+          {/* <Route path='profile/updatePassword' element={<UpdatePassword />} /> */}
+
+          {/* admin routes */}
         </Routes>
 
         <Footer />

@@ -1,6 +1,5 @@
 import '../App.css'
 import React, { Fragment } from 'react'
-import './Loader/Loader'
 import { MailOutline, RedeemRounded } from '@mui/icons-material'
 // import Loader from './Loader/Loader'
 import { useEffect, useState } from 'react'
@@ -8,8 +7,8 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate, Link, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
- import { clearError, updatePassword } from '../action/userAction'
-//import { updatePassword } from '../action/userAction'
+// import { clearError, updatePassword } from '../action/userAction'
+import { updatePassword, updateProfile } from '../action/userAction'
 import { useAlert } from 'react-alert'
 import { UPDATE_PASSWORD_RESET } from '../reducers/constant/allConstant'
 import { registerUser } from '../action/userAction'
@@ -62,9 +61,9 @@ const Input = styled.input`
   font-weight: 900;
 `
 
-const UpdatePassword = ({ history }) => {
+const UpdatePassword = () => {
   const { user } = useSelector((state) => state.user)
-  //  const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const { error, isUpdated } = useSelector((state) => state.user)
   const dispatch = useDispatch()
@@ -78,14 +77,14 @@ const UpdatePassword = ({ history }) => {
 
   const updatePasswordSubmit = (e) => {
     e.preventDefault()
-    const myform = new FormData()
+    // const myform = new FormData()
 
-    myform.set('oldPassword', oldPassword)
-    myform.set('newPassword', newPassword)
-    myform.set('confirmPassword', confirmPassword)
+    // myform.set('oldPassword', oldPassword)
+    // myform.set('newPassword', newPassword)
+    // myform.set('confirmPassword', confirmPassword)
 
     // myform.set("avatar",avatar);
-    dispatch(updatePassword(myform))
+    dispatch(updatePassword(oldPassword, newPassword, confirmPassword))
   }
 
   useEffect(() => {
@@ -98,17 +97,17 @@ const UpdatePassword = ({ history }) => {
     if (isUpdated) {
       alert.success('Password Updated Successfully')
 
-      // navigate('/profile')
+      navigate('/profile')
       dispatch({
         type: UPDATE_PASSWORD_RESET,
       })
     }
-  }, [dispatch, error, alert, history, isUpdated])
+  }, [dispatch, error, alert, isUpdated])
   return (
     <Container>
       <Wrapper>
         <h2>Change Password</h2>
-        <Form >
+        <Form onSubmit={updatePasswordSubmit}>
           <VpnKey />
           <Input
             type='password'
@@ -140,10 +139,12 @@ const UpdatePassword = ({ history }) => {
             }}
           />
 
-<Button onClick={() => updatePasswordSubmit()}>
-          <b>SUBMIT</b>
-        </Button>
-          
+          <Button
+            type='submit'
+            value='Update Password'
+            className='updatePasswordBtn'
+            onClick={(e) => updatePasswordSubmit(e)}
+          />
         </Form>
       </Wrapper>
     </Container>

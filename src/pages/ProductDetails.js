@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   FavoriteBorderOutlined,
   ShoppingCartOutlined,
@@ -6,15 +6,22 @@ import {
 import styled from 'styled-components'
 import SingleItem from '../component/SingleItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProduct, getProductDetails } from '../action/productAction'
+import {
+  getProduct,
+  getProductDetails,
+  getProductImages,
+} from '../action/productAction'
 import { useParams } from 'react-router-dom'
 import '../data'
 import { addToCart } from '../action/cartAction'
 import { useAlert } from 'react-alert'
+import { Backdrop, Fade, Modal, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: #f2f2f2;
 `
 
 const Wrapper = styled.div`
@@ -73,14 +80,14 @@ const InfoContainer = styled.div`
 `
 
 const Title = styled.h1`
-  font-weight: 900;
+  font-weight: 400;
 `
 const Desc = styled.p`
   margin: 20px 0px;
-  font-weight: 600;
+  font-weight: 200;
 `
 const Price = styled.span`
-  font-weight: 900;
+  font-weight: 300;
   font-size: 30px;
 `
 
@@ -104,15 +111,15 @@ const Price = styled.span`
 //   justify-content: space-between;
 // `
 const Button = styled.button`
-  background-color: 'gray';
+  /* background-color: 'gray'; */
   color: 'white';
 
   font-size: 0.8em;
   margin: 1em;
-  padding: 0.25em 1em;
+  /* padding: 0.25em 1em; */
   border: none;
 
-  cursor: pointer;
+  /* cursor: pointer; */
 
   /* &:hover {
     background-color: #f8f4f9;
@@ -125,7 +132,7 @@ const Text = styled.button`
   margin-bottom: 200px;
   margin: 0.9em;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 200;
   padding: -0.25em 1em;
   border: 2px solid gray;
   border-radius: 3px;
@@ -148,37 +155,55 @@ const Similar = styled.div`
 const Items = styled.div`
   display: flex;
 `
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: '#CAD1D4',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 const ProductDetails = () => {
   const dispatch = useDispatch()
   const { product, loading } = useSelector((state) => state.productDetails)
+  // const { image } = useSelector((state) => state.productImage)
+  // const { product, loading } = useSelector((state) => state.productDetails)
   const { products } = useSelector((state) => state.products)
+  const [open, setOpen] = useState(false)
   const { id } = useParams()
   const alert = useAlert()
 
-  const cartHandler = (e) => {
-    e.preventDefault()
+  const cartHandler = () => {
+    // e.preventDefault()
     dispatch(addToCart(id))
     alert.success('Item added to cart')
   }
+  let pr = products.filter((i) => i._id === product._id)
 
-  // console.log(id)
+  let similarPr = products.filter((i) => i.category === product.category)
+  similarPr = similarPr.filter((i) => i._id !== product._id)
+
   useEffect(() => {
     dispatch(getProductDetails(id))
+
     dispatch(getProduct())
   }, [dispatch, id])
+
+  const handleClose = () => setOpen(false)
 
   return (
     <Container>
       <Wrapper>
         <ImgContainer>
-          {/* <Image src='https://images-na.ssl-images-amazon.com/images/I/41AyOrtLJ6L._SX367_BO1,204,203,200_.jpg' /> */}
-          {/* <Image src={product.images[0].url} alt={product.images[0].alt} /> */}
-
+          {pr && pr.map((i) => <Image src={i.images[0].url} />)}
           <Info>
             <Icon>
               <ShoppingCartOutlined
-                onClick={(e) => cartHandler(e)}
+                onClick={() => cartHandler()}
                 fontSize='large'
               />
             </Icon>
@@ -197,17 +222,50 @@ const ProductDetails = () => {
             <br />
           </Price>
           <Button>
-            <Text>Contact Owner </Text>
-            <Text>BUY NOW </Text>
+            <Button onClick={() => setOpen(true)}>Contact Owner</Button>
+            <Modal
+              aria-labelledby='transition-modal-title'
+              aria-describedby='transition-modal-description'
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              // BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open}>
+                <Box sx={style}>
+                  <Typography
+                    id='transition-modal-title'
+                    variant='h6'
+                    component='h2'
+                  >
+                    Seller Information
+                  </Typography>
+                  <Typography id='transition-modal-description' sx={{ mt: 2 }}>
+                    <b>{`Seller Name : ${product.userName}`}</b>
+                    <br></br>
+                   
+                    <b>{`Seller Email : ${product.userEmail}`}</b>
+                    <br></br>
+                    <b>{`Seller Department : ${product.userDepartment}`}</b>
+                  </Typography>
+                </Box>
+              </Fade>
+            </Modal>
+            <Text onClick={() => cartHandler()}>BUY NOW </Text>
           </Button>
         </InfoContainer>
       </Wrapper>
       <Similar>
         <Title>Similar Items</Title>
         <Items>
-          {products.slice(0, 4).map((item) => (
-            <SingleItem item={item} />
-          ))}
+          {similarPr &&
+            similarPr.slice(0, 4).map((item) => (
+              // <img src={item.images[0].url} />
+              <SingleItem item={item} />
+            ))}
         </Items>
       </Similar>
     </Container>

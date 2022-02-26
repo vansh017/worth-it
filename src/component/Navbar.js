@@ -1,22 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { LocalGroceryStoreOutlined, Person, Search } from '@mui/icons-material'
-import { Badge, SpeedDial, SpeedDialAction } from '@mui/material'
+import {
+  LocalGroceryStoreOutlined,
+  NotificationAdd,
+  NotificationAddOutlined,
+  Notifications,
+  NotificationsOutlined,
+  Person,
+  Search,
+} from '@mui/icons-material'
+import { Badge, MenuItem, SpeedDial, SpeedDialAction } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import Signup from '../pages/Signup'
 import { useSelector } from 'react-redux'
-import AddAlertIcon from '@mui/icons-material/AddAlert';
+import { Menu } from '@material-ui/core'
 
 const Container = styled.div`
   height: 60px;
-  background-color:#CDFAFF;
-  
+  background-color: #f6f7f6;
   align-items: center;
   width: 100vw;
   justify-content: space-evenly;
   @media (max-width: 600px) {
-    font-size: 10px;
-    justify-content: space-evenly;
+    font-size: 14px;
+    width: 114vw;
   }
 `
 const Cover = styled.div`
@@ -30,6 +37,7 @@ const Cover = styled.div`
 const Left = styled.div`
   flex: 1;
   /* font-weight: 500; */
+  margin: 10px;
   /* cursor: pointer; */
   @media (max-width: 600px) {
     flex: 0.5;
@@ -50,6 +58,9 @@ const SearchContainer = styled.div`
   border-radius: 7px;
   margin-bottom: 5px;
   background-color: #f6f7f6;
+  @media (max-width: 600px) {
+    width: 40vw;
+  }
 `
 const Input = styled.input`
   contain: content;
@@ -61,13 +72,16 @@ const Input = styled.input`
   font-size: 15px;
   width: 18vw;
   @media (max-width: 600px) {
-    width: 14vw;
+    width: 34vw;
   }
 `
 const Middle = styled.div`
   flex: 1;
+  align-items: center;
   @media (max-width: 600px) {
-    flex: 0.5;
+    justify-content: 'center';
+    align-items: 'center';
+    margin-left: 10px;
   }
 `
 const Right = styled.div`
@@ -75,12 +89,12 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin: 10px;
+  margin: 15px;
 
   @media (max-width: 600px) {
     margin-right: 0;
-    flex: 2;
-    justify-content: flex-start;
+    /* flex: 2; */
+    justify-content: flex-end;
   }
 `
 const Options = styled.div`
@@ -99,24 +113,12 @@ const Options = styled.div`
 
 function Navbar({ isAuthUser }) {
   const [keyword, setKeyword] = useState('')
-  const [open, setOpen] = useState('')
+  // const [notification, setNotification] = useState([])
   const navigate = useNavigate()
   // const { navigate } = this.props
+  const [anchorEl, setAnchorEl] = useState()
   const { cartItems } = useSelector((state) => state.cart)
-
-  // const titleHandle = () => {}
-  // const signUpHandle = () => {
-  //   navigate('/signup')
-  // }
-  // const loginHandle = () => {
-  //   navigate('/login')
-  // }
-  // const cartHandle = () => {
-  //   navigate('/cart')
-  // }
-  // const profileHandle = () => {
-  //   navigate('/profile')
-  // }
+  const { isAuthUserReg } = useSelector((state) => state.registerUser)
 
   const searchHandler = (e) => {
     e.preventDefault()
@@ -127,6 +129,12 @@ function Navbar({ isAuthUser }) {
     }
   }
   // console.log(keyword)
+  const open = Boolean(anchorEl)
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  useEffect(() => {}, [])
 
   return (
     <Container>
@@ -156,7 +164,6 @@ function Navbar({ isAuthUser }) {
               <Options onClick={() => navigate('/login')}>LOG IN</Options>
             </>
           )}
-
           <Badge badgeContent={cartItems.length} color='secondary'>
             <LocalGroceryStoreOutlined
               style={{ marginLeft: '5px', cursor: 'pointer' }}
@@ -165,33 +172,18 @@ function Navbar({ isAuthUser }) {
             />
           </Badge>
           {isAuthUser && (
-            <Person
-              onClick={() => navigate('/profile')}
-              fontSize='large'
-              style={{ cursor: 'pointer' }}
-            />
-          )}
-          <AddAlertIcon
-              onClick={() => navigate('/allRequests')}
-              fontSize='large'
-              style={{ cursor: 'pointer' }}
-            />
-         
-          {/* <SpeedDial
-            ariaLabel='SpeedDail tooltip example'
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            icon={
-              <Person
-                // onClick={profileHandle}
+            <>
+              <NotificationsOutlined
                 fontSize='large'
-                style={{ marginLeft: '5px', cursor: 'pointer' }}
+                onClick={() => navigate('/requests')}
               />
-            }
-          >
-            <SpeedDialAction icon={<LocalGroceryStoreOutlined />} />
-          </SpeedDial> */}
+              <Person
+                onClick={() => navigate('/profile')}
+                fontSize='large'
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+              />
+            </>
+          )}
         </Right>
       </Cover>
     </Container>

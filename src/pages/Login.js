@@ -4,58 +4,54 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearError, login } from '../action/userAction'
 import { useAlert } from 'react-alert'
+import { Button, TextField } from '@mui/material'
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url(https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/2017/09/13204610/13092017_Books_02.jpg)
-      center;
+  width: 100%;
+  height: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 400;
+  background-color: #e7e8e9;
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+  }
 `
 
 const Wrapper = styled.div`
   width: 25%;
-  padding: 20px;
-  background-color: white;
+  padding: 2vw;
+  background-color: #f3f8fb;
+  margin: 10vw;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+    width: 90%;
+    /* position: fixed; */
+  }
 `
 
 const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  font-weight: 400;
+  margin-top: 30px;
+  margin-right: 30px;
+  margin-left: 30px;
+  margin-bottom: 10px;
 `
 
 const Title = styled.h1`
   font-size: 24px;
-  font-weight: 700;
-`
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0px;
-  padding: 10px;
-  font-weight: 800;
-`
-
-const Button = styled.button`
-  width: 20%;
-  padding: 15px 20px;
-  color: 'black';
-  font-weight: 900;
-
-  font-size: 0.8em;
-  margin: 1em;
-
-  border-radius: 3px;
-  cursor: pointer;
-  margin-bottom: 10px;
+  font-weight: 600;
+  color: #252a2a;
 `
 
 const Link = styled.a`
@@ -63,7 +59,10 @@ const Link = styled.a`
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
-  font-weight: 900;
+  font-weight: 600;
+  margin-left: 3px;
+  color: #343742;
+  justify-content: flex-end;
 `
 
 const Login = () => {
@@ -73,6 +72,7 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { loading, error, isAuthUser } = useSelector((state) => state.user)
+  const navigate = useNavigate()
 
   const link = location.search ? location.search.split('=')[1] : '/profile'
   console.log(link)
@@ -80,53 +80,75 @@ const Login = () => {
   // console.log(email)
   // console.log(password)
   const handleLogin = (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     // console.log(e)
     dispatch(login(email, password))
+
+    // alert.success('Logged in Successfully')
+  }
+
+  useEffect(() => {
     if (error) {
       alert.error(error)
       dispatch(clearError())
-    } else alert.success('Logged in Successfully')
-  }
+    }
 
-  const navigate = useNavigate()
-  useEffect(() => {
     if (isAuthUser) {
       navigate(link)
     }
-  }, [isAuthUser, error, link])
+  }, [isAuthUser, dispatch, navigate, error, link, alert])
 
   return (
     <Container>
       <Wrapper>
         <Title>LOG IN</Title>
         <Form>
-          <Input
+          <TextField
+            id='outlined-basic'
+            label='email'
             type='email'
+            variant='outlined'
             required
             value={email}
-            placeholder='email address'
+            color='primary'
             onChange={(e) => setEmail(e.target.value)}
+            style={{ margin: '.7vw' }}
           />
-
-          <Input
-            type='password'
-            placeholder='password'
+          <TextField
+            id='outlined-basic'
+            label='password'
+            variant='outlined'
             required
+            type='password'
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value)
-            }}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ margin: '.7vw' }}
           />
-          <Button type='submit' onClick={(e) => handleLogin(e)}>
-            LOGIN
-          </Button>
-          <Link onClick={() => navigate('/forgotPassword')}>
-            FORGOT PASSWORD?
-          </Link>
-          <label>New at Worth It?</label>
-          <Link onClick={() => navigate('/signup')}>CREATE AN ACCOUNT</Link>
         </Form>
+        <Button
+          type='submit'
+          variant='contained'
+          onClick={(e) => handleLogin(e)}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: '30%',
+            width: '20px',
+          }}
+        >
+          LOGIN
+        </Button>
+        <Link
+          onClick={() => navigate('/forgotPassword')}
+          style={{
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end',
+          }}
+        >
+          FORGOT PASSWORD?
+        </Link>
+        <label>New at Worth It?</label>
+        <Link onClick={() => navigate('/signup')}>CREATE AN ACCOUNT</Link>
       </Wrapper>
     </Container>
   )

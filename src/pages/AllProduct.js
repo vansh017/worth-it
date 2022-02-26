@@ -69,6 +69,8 @@ function AllProduct() {
     setPrice(newPrice)
   }
 
+  // let availableProducts = products.filter((i) => i.status !== 'sold')
+
   useEffect(() => {
     dispatch(getProduct(keyword, price, category))
   }, [dispatch, keyword, price, category])
@@ -105,7 +107,7 @@ function AllProduct() {
       <Categories>
         <Items>
           {products &&
-            products.slice(0, 12).map((item) => <SingleItem item={item} />)}
+            products.slice(0, 7).map((item) => <SingleItem item={item} />)}
         </Items>
       </Categories>
     </Container>

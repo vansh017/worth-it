@@ -11,9 +11,9 @@ import { updateProfile } from '../action/userAction'
 import { useAlert } from 'react-alert'
 import { UPDATE_PROFILE_RESET } from '../reducers/constant/allConstant'
 import { registerUser } from '../action/userAction'
-import { Button, } from '@mui/material'
+import { Button } from '@mui/material'
 import { TextField } from '@mui/material'
-import { Select,MenuItem , InputLabel,FormControl} from '@mui/material'
+import { Select, MenuItem, InputLabel, FormControl } from '@mui/material'
 
 const Container = styled.div`
   width: 100vw;
@@ -58,23 +58,22 @@ const Input = styled.input`
   font-weight: 900;
 `
 
-const UpdateProfile = ({history}) => {
-  
+const UpdateProfile = ({ history }) => {
   const dispatch = useDispatch()
   const alert = useAlert()
   const { user } = useSelector((state) => state.user)
   const { error, isUpdated, loading } = useSelector((state) => state.profile)
 
-  
   // const [avatar, setAvatar] = useState();
 
   // const [avatarPreview, setAvatarPreview ] = useState("")
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [department, setDepartment] = useState("")
-  const [sem, setSem] = useState("")
-  const [address, setAddress] = useState("")
-  const navigate =useNavigate()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [department, setDepartment] = useState('')
+  const [address, setAddress] = useState('')
+  const [sem, setSem] = useState('')
+  const [mobileNo, setMobileNo] = useState('')
+  const navigate = useNavigate()
 
   const departmentarr = [
     'IT',
@@ -84,22 +83,15 @@ const UpdateProfile = ({history}) => {
     'EC',
     'Mechanical',
     'Chemical',
-    'Other',
   ]
-  const semArr =[
-'1','2','3','4','5','6','7'
-  ]
-  const updateProfileSubmit = (e) => {
+  const semArr = ['1', '2', '3', '4', '5', '6', '7']
+  const updateProfileSubmit = () => {
     //  e.preventDefault();
-    const myform = new FormData()
+    // const myform = new FormData()
 
-    // myform.set('name', name)
-    // myform.set('email', email)
-    // myform.set('department',department)
-    // myform.set('sem',sem)
-    // myform.set('address',address)
     // myform.set("avatar",avatar);
-    dispatch(updateProfile(name,email,department,sem,address))
+    dispatch(updateProfile(name, email, department, sem, mobileNo, address))
+    navigate('/profile')
   }
   // const updateProfileDataChange = (e) => {
   //   const reader = new FileReader();
@@ -120,9 +112,8 @@ const UpdateProfile = ({history}) => {
       setDepartment(user.department)
       
       setSem(user.sem)
+      setMobileNo(user.mobileNo)
       setAddress(user.address)
-
- 
       // setAvatar(user.avatar)
     }
 
@@ -133,18 +124,18 @@ const UpdateProfile = ({history}) => {
     if (isUpdated) {
       alert.success('Profile Updated Successfully')
       dispatch(loadUser())
-      dispatch(navigate('/profile'))
+      navigate('/profile')
       dispatch({
         type: UPDATE_PROFILE_RESET,
       })
     }
-  }, [dispatch, error, alert, history, user, isUpdated])
+  }, [dispatch, error, alert, navigate, user, isUpdated])
   return (
     <Container>
       <Wrapper>
         <h2>Update Profile</h2>
-        <Form >
-         {/* <img src={avatarPreview} alt="Avatar Preview" />
+        <Form>
+          {/* <img src={avatarPreview} alt="Avatar Preview" />
         <Input
        
             placeholder='name'
@@ -162,7 +153,7 @@ const UpdateProfile = ({history}) => {
             onChange={(e) => setName(e.target.value)}
             style={{ margin: '.7vw' }}
           />
-            <TextField
+          <TextField
             // id='outlined-basic'
             label='Email'
             variant='outlined'
@@ -171,43 +162,49 @@ const UpdateProfile = ({history}) => {
             onChange={(e) => setEmail(e.target.value)}
             style={{ margin: '.7vw' }}
           />
-           <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Department</InputLabel>
-  
-  <Select
-            onChange={(event) => setDepartment(event.target.value)}
-            style={{ width: '100%', margin: '5px' }}
-            value={department}
-          >
-            {departmentarr.map((c) => (
-              <MenuItem value={c}>{c}</MenuItem>
-            ))}
-          </Select>
-</FormControl>
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Department</InputLabel>
 
- <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Semester</InputLabel>
-  <Select
-            onChange={(event) => setSem(event.target.value)}
-            style={{ width: '100%', margin: '5px' }}
-            value={sem}
-          >
-            {semArr.map((c) => (
-              <MenuItem value={c}>{c}</MenuItem>
-            ))}
-          </Select>
-</FormControl>
-<TextField
+            <Select
+              onChange={(event) => setDepartment(event.target.value)}
+              style={{ width: '100%', margin: '5px' }}
+              value={department}
+            >
+              {departmentarr.map((c) => (
+                <MenuItem value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Semester</InputLabel>
+            <Select
+              onChange={(event) => setSem(event.target.value)}
+              style={{ width: '100%', margin: '5px' }}
+              value={sem}
+            >
+              {semArr.map((c) => (
+                <MenuItem value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            // id='outlined-basic'
+            label='Mobile No'
+            variant='outlined'
+            value={mobileNo}
+            onChange={(e) => setMobileNo(e.target.value)}
+            style={{ margin: '.7vw' }}
+          />
+           <TextField
             // id='outlined-basic'
             label='Address'
             variant='outlined'
-            
-           
+        
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             style={{ margin: '.7vw' }}
           />
-
         </Form>
         <Button
           variant='contained'

@@ -1,9 +1,16 @@
 import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getOrderDetails, clearErrors } from '../action/orderAction'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+  getOrderDetails,
+  clearErrors,
+  updateOrder,
+} from '../action/orderAction'
 import { useAlert } from 'react-alert'
+import { Button, MenuItem, Select } from '@mui/material'
+import { useState } from 'react'
+import { loadUser } from '../action/userAction'
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -69,15 +76,21 @@ const SummaryPrice = styled.div``
 function OrderDetails() {
   // myOrders orders
 
-  const { order, error } = useSelector((state) => state.orderDetails)
+  const { order } = useSelector((state) => state.orderDetails)
+  const { user } = useSelector((state) => state.user)
+  // const { user } = useSelector((state) => state.s)
+  const [orderStatus, setOrderStatus] = useState('')
+  const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useDispatch()
   const alert = useAlert()
   let cost = 0
+  console.log(order)
 
   //   console.log(order)
+  // setOrderStatus(order.orderStatus)
 
-  //   orders.orderItems.map((i) => (cost += i.price))
+  // order.orderItems.map((i) => (cost += i.price))
 
   //   console.log(cost)
   useEffect(() => {
@@ -86,9 +99,23 @@ function OrderDetails() {
     //   dispatch(clearErrors())
     // }
     dispatch(getOrderDetails(id))
+    if (!user) dispatch(loadUser())
   }, [dispatch, id])
 
-  const address = order.createdAt.slice(0, 10)
+  useEffect(() => {
+    if (order && order._id !== id) {
+      dispatch(getOrderDetails(id))
+    } else {
+      setOrderStatus(order.orderStatus)
+    }
+  }, [dispatch, id, order])
+  const updateOrderhandle = () => {
+    // setOrderStatus(e)
+    dispatch(updateOrder(id, orderStatus))
+
+    navigate('/dashboard')
+  }
+  // const address = order.createdAt.slice(0, 10)
   return (
     <Container>
       <Heading>OrderID #{id}</Heading>
@@ -96,21 +123,23 @@ function OrderDetails() {
         <Left>
           <Heading>Shipping Details</Heading>
           <Address>
-            <p>Name:</p>
-            {/* <span>{user.name}</span> */}
-            {/* <span>{user.email}</span> */}
-
+            <p>
+              Name:
+              {/* <span>{user.name}</span> */}
+            </p>
+            <p>{/* Email :<span>{user.email}</span> */}</p>
             <p>
               Mobile Number : <span>{order.phoneNo}</span>
             </p>
             <p>
-              Ordered On : <span>{order.createdAt.slice(0, 10)}</span>
+              {/* Ordered On : <span>{order.createdAt.slice(0, 10)}</span> */}
             </p>
 
             <p>
               Address :<span>{order.address}</span>
             </p>
           </Address>
+
           <Item>
             <Heading>Items</Heading>
             {order.orderItems &&
@@ -124,6 +153,23 @@ function OrderDetails() {
           </Item>
         </Left>
         <Right>
+          <Info>
+            <p>
+              If you have received your product please update order status to
+              received
+            </p>
+            <Select
+              onChange={(event) => setOrderStatus(event.target.value)}
+              style={{ width: '100%', margin: '5px' }}
+              value={orderStatus}
+            >
+              <MenuItem value='processing'>Processing</MenuItem>
+              <MenuItem value='delivered'>delivered</MenuItem>
+            </Select>
+            <Button onClick={() => updateOrderhandle()}>
+              Update Order Status
+            </Button>
+          </Info>
           <SummaryTitle>ORDER SUMMARY</SummaryTitle>
           <SummaryItem>
             <SummaryText>Total Product : </SummaryText>

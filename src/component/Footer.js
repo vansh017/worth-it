@@ -4,15 +4,22 @@ import styled from 'styled-components'
 const Container = styled.div`
   /* padding: 20px; */
   background-color: gray;
-  width: 100vw;
+  width: 100%;
+
+  position: relative;
+  @media (max-width: 600px) {
+    margin-top: 20vw;
+    /* position: fixed; */
+  }
 `
 const Wrapper = styled.div`
   /* flex-direction: column; */
   justify-content: center;
-  max-width: 100vw;
+  max-width: 80%;
   margin: 0 auto;
   background-color: gray;
   display: flex;
+  margin-top: 10px;
 `
 const Column = styled.div`
   display: flex;
@@ -49,16 +56,13 @@ function Footer() {
     <Container>
       <Wrapper>
         {/* <Row> */}
-        <Column>
-          <Title>About Us</Title>
-          <Link href='#'>story</Link>
-        </Column>
+
         <Column>
           <Title>Menu</Title>
-          <Link href='#'>View Items</Link>
+          <Link href='/products'>View Items</Link>
           <Link href='#'>Categories</Link>
-          <Link href='#'>MyCart</Link>
-          <Link href='#'>Profile</Link>
+          <Link href='/cart'>MyCart</Link>
+          <Link href='/profile'>Profile</Link>
         </Column>
         <Column>
           <Title>Contact Us</Title>

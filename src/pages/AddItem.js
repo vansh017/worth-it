@@ -7,44 +7,88 @@ import { useNavigate } from 'react-router-dom'
 import { clearErrors } from '../action/orderAction'
 import { NEW_PRODUCT_RESET } from '../reducers/constant/allConstant'
 import { useAlert } from 'react-alert'
-import { MenuItem, Select } from '@mui/material'
+import {
+  Button,
+  ButtonBase,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
+import { PhotoCamera } from '@mui/icons-material'
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url(https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/2017/09/13204610/13092017_Books_02.jpg)
-      center;
+
   display: flex;
+  flex-direction: column;
   /* font-weight: 900; */
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: flex-start; */
 `
 
 const Wrapper = styled.div`
   width: 40%;
   padding: 20px;
   background-color: white;
+  display: flex;
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+
+    /* position: fixed; */
+  }
 `
 
-const Form = styled.form`
+const Image = styled.img`
+  width: 50vw;
+  height: 70vh;
+  margin-right: 5vw;
+  @media (max-width: 600px) {
+    /* position: fixed; */
+    height: 30vh;
+    width: 70vw;
+    margin-left: 15vw;
+  }
+`
+const Form = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   /* font-weight: 900; */
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+    width: 40%;
+    & > p {
+      font-size: large;
+    }
+
+    /* position: fixed; */
+  }
 `
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 30px;
+  margin-left: 40vw;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  @media (max-width: 600px) {
+    margin: 10px;
+    margin-left: 30vw;
+    font-size: 24px;
+    /* position: fixed; */
+  }
   /* font-weight: 900; */
 `
 
 const PreviewImg = styled.img`
   width: 15vw;
-  height: 15vh;
+  height: 20vh;
   display: flex;
 `
 const Input = styled.input`
@@ -55,29 +99,9 @@ const Input = styled.input`
   /* font-weight: 900; */
 `
 
-const Button = styled.button`
-  width: 20%;
-  padding: 12px 15px;
-  color: 'white';
-  font-size: 17px;
-  margin: 1em;
-  /* font-weight: 900; */
-  border-radius: 3px;
-  cursor: pointer;
-`
 const Prv = styled.div`
   display: flex;
   overflow: auto;
-`
-const Button1 = styled.button`
-  width: 10%;
-  padding: 5px 7px;
-  color: 'white';
-  font-size: 12px;
-  margin: 1em;
-  /* font-weight: 900; */
-  border-radius: 3px;
-  cursor: pointer;
 `
 
 const AddItem = () => {
@@ -150,56 +174,89 @@ const AddItem = () => {
 
   return (
     <Container>
+      <Title>Add an Item</Title>
       <Wrapper>
-        <Title>Add an Item</Title>
+        <Image src='/additemPhoto.png' />
         <Form>
-          <Input
-            placeholder='Name of an Item'
+          <TextField
+            // id='outlined-basic'
+            label='Name'
+            variant='outlined'
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
+            style={{ margin: '.7vw' }}
           />
-          <Input
-            placeholder='Description'
+          <TextField
+            // id='outlined-basic'
+            label='Description'
+            variant='outlined'
             required
+            multiline
+            rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            style={{ margin: '.8vw' }}
           />
-          <Select
-            onChange={(event) => setCategory(event.target.value)}
-            style={{ width: '100%', margin: '5px' }}
-            value={category}
-          >
-            {categories.map((c) => (
-              <MenuItem value={c}>{c}</MenuItem>
-            ))}
-          </Select>
-
-          <Input
+          <TextField
+            // id='outlined-basic'
+            label='Price'
+            variant='outlined'
             type='number'
-            placeholder='Price'
             min='0'
             required
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            style={{ margin: '.7vw', width: '30vw', marginBottom: '10px' }}
           />
-          <Input
-            type='file'
-            name='avatar'
-            accept='image/*'
-            onChange={createProductImagesChange}
-            multiple
-          />
+          <FormControl fullWidth>
+            <InputLabel style={{ margin: '5px' }}>Category</InputLabel>
+            <Select
+              onChange={(event) => setCategory(event.target.value)}
+              style={{ width: '100%', margin: '.9vw' }}
+              value={category}
+            >
+              {categories.map((c) => (
+                <MenuItem value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <IconButton
+              color='primary'
+              aria-label='upload picture'
+              component='span'
+            >
+              <PhotoCamera />
+            </IconButton>
+            <Input
+              accept='image/*'
+              id='contained-button-file'
+              type='file'
+              onChange={createProductImagesChange}
+            />
+          </div>
+
           <Prv>
             {imagesPreview.map((image, index) => (
               <PreviewImg key={index} src={image} alt='Product Preview' />
             ))}
           </Prv>
-        </Form>
 
-        <Button onClick={() => handleUp()}>
-          <b>SUBMIT</b>
-        </Button>
+          <Button
+            variant='contained'
+            onClick={() => handleUp()}
+            style={{
+              width: '100px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: '15vw',
+            }}
+          >
+            SUBMIT
+          </Button>
+        </Form>
       </Wrapper>
     </Container>
   )

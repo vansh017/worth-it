@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { clearErrors, createOrder } from '../action/orderAction'
+import emailjs from 'emailjs-com'
+import axios from 'axios'
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +21,7 @@ const Info = styled.div`
 const Heading = styled.h2`
   margin-top: 2vh;
   margin-left: 2vh;
-  font-weight: 900;
+  font-weight: 400;
 `
 const Left = styled.div``
 const Address = styled.div`
@@ -27,6 +29,7 @@ const Address = styled.div`
   margin-bottom: 2vh;
   margin-left: 2vw;
   font-weight: 700;
+  font-weight: 300;
 `
 const Item = styled.div``
 const Image = styled.img`
@@ -37,9 +40,11 @@ const Image = styled.img`
 `
 const Title = styled.h3`
   margin: 5px;
+  font-weight: 300;
 `
 const Price = styled.h4`
   margin: 1vw;
+  font-weight: 300;
 `
 const Right = styled.div`
   flex: 1;
@@ -54,7 +59,7 @@ const Right = styled.div`
   height: 40vh;
 `
 const SummaryTitle = styled.h2`
-  font-weight: 900;
+  font-weight: 400;
 `
 const SummaryItem = styled.div`
   margin: 30px 0px;
@@ -64,11 +69,14 @@ const SummaryItem = styled.div`
 const SummaryText = styled.div``
 const SummaryPrice = styled.div``
 const Button = styled.button`
-  font-weight: 900;
+  font-weight: 400;
   padding: 8px;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  margin-left:20vw
   margin: 5px;
-  border: 2px solid blue;
+  border:none
+  /* border: 2px solid blue; */
 
   cursor: pointer;
 
@@ -81,6 +89,8 @@ const ConfirmOrder = () => {
   const navigate = useNavigate()
   const alert = useAlert()
   const dispatch = useDispatch()
+  // const [email, setEmail] = useState([])
+  // const [socket, setSocket] = useState(null)
 
   let cost = 0
   {
@@ -98,10 +108,36 @@ const ConfirmOrder = () => {
     orderItems: cartItems,
     phoneNo: shippingInfo.mobileNo,
     address: shippingInfo.address,
+
     // image: cartItems.image,
     totalPrice: cost,
   }
-  const placeOrder = () => {
+  // useEffect(() => {
+
+  // }, [socket])
+
+  // console.log(email)
+  let email
+  let subject
+  let message
+
+  const placeOrder = async () => {
+    cartItems.map(
+      (i) => (
+        ((email = i.SellerEmail),
+        (message = `Hello from WorthIT Your Product ${i.name} is Bought by ${user.name} .Buyer Details ${user.email} name:  ${user.name}
+          `),
+        (subject = `
+        WorthIT notification 
+        `)),
+        axios.post('/api/confirmEmail', {
+          email,
+          subject,
+          message,
+        })
+      )
+    )
+
     dispatch(createOrder(order))
 
     alert.success('Order Placed Successfully ')
@@ -110,21 +146,24 @@ const ConfirmOrder = () => {
     }, 1000)
     navigate('/dashboard')
   }
+  // const Cmsg = ``
+  // const receiver = `${cartItems[0].SellerEmail}`
+  // console.log(Cmsg)
+
+  emailjs.init('user_lmYx5RWozPhPcGqXPgyOn')
 
   return (
     <Container>
       <Left>
         <Heading>Shipping Details</Heading>
         <Address>
-          <p>Name:</p>
-          {/* <span>{user.name}</span> */}
-          {/* <span>{user.email}</span> */}
-
+          <p>{/* Name :<span>{user.name}</span> */}</p>
+          <p>{/* Email :<span>{user.email}</span>{' '} */}</p>
           <p>
-            Mobile Number :<span>{shippingInfo.mobileNo}</span>
+            Mobile Number : <span>{shippingInfo.mobileNo}</span>
           </p>
           <p>
-            Address :<span>{shippingInfo.address}</span>
+            Address : <span>{shippingInfo.address}</span>
           </p>
         </Address>
         <Item>

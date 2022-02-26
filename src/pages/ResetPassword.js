@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
-import { useAlert } from 'react-alert'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { clearErrors } from '../action/orderAction'
-import { forgotPassword } from '../action/userAction'
+import { resetPassword } from '../action/userAction'
 
 const Container = styled.div`
   width: 100vw;
@@ -81,41 +80,36 @@ const Link = styled.a`
   font-weight: 900;
 `
 
-const ForgotPassword = (e) => {
-  // e.preventDefault()
-  const [email, setEmail] = useState('')
+function ResetPassword() {
   const dispatch = useDispatch()
-  const alert = useAlert()
-  const { error, message, loading } = useSelector(
-    (state) => state.forgotPassword
-  )
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const { token } = useParams()
   const handleReset = () => {
-    console.log(email)
-    dispatch(forgotPassword(email))
+    dispatch(resetPassword(password, confirmPassword, token))
   }
-  // useEffect(() => {
-  //   if (error) {
-  //     alert.error(error)
-  //     dispatch(clearErrors())
-  //   }
-
-  //   if (message) {
-  //     alert.success(message)
-  //   }
-  // }, [dispatch, error, alert, message])
-
   return (
     <Container>
       <Wrapper>
         <Title>Reset Password</Title>
 
         <Input
-          placeholder='Enter your email address'
-          onChange={(e) => setEmail(e.target.value)}
+          type='password'
+          placeholder='New Password'
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <Button1>Send OTP</Button1>
+        <Input
+          type='password'
+          placeholder='Confirm Password'
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button1 onClick={() => handleReset()}>Update password</Button1>
 
-        <Button onClick={() => handleReset()}>Reset</Button>
+        {/* <Button>Reset</Button> */}
 
         {/* <label >New at Worth It?</label> */}
       </Wrapper>
@@ -123,4 +117,4 @@ const ForgotPassword = (e) => {
   )
 }
 
-export default ForgotPassword
+export default ResetPassword
